@@ -3,11 +3,12 @@ using UnityEngine;
 
 namespace MondayCatWorld.Games
 {
-
     public class TheStack : MonoBehaviour
     {
         // Const Value
         private const string CubeKey = "Cube";
+        private const string BestScoreKey = "BestScore";
+        private const string BestComboKey = "BestCombo";
         private const float BoundSize = 3.5f;
         private const float MovingBoundsSize = 3f;
         private const float StackMovingSpeed = 5.0f;
@@ -15,38 +16,58 @@ namespace MondayCatWorld.Games
         private const float ErrorMargin = 0.1f;
 
         private Vector3 prevBlockPosition;
-        private Vector3 desiredPosition;
-        private Vector3 stackBounds = new Vector2(BoundSize, BoundSize);
+        private Vector3 desiredPosition;                                 // The Stack이 이동 할 위치(일정한 카메라 시점을 유지하기 위해 사용)
+        private Vector3 stackBounds = new Vector2(BoundSize, BoundSize); // 큐브 크기
 
         private Transform lastBlock = null;
-        private float blockTransition = 0f;
-        private float secondaryPosition = 0f;
+        private float blockTransition = 0f;   // 블럭 이동 시간
+        private float secondaryPosition = 0f; // 블럭 이동 위치
 
         private int stackCount = -1;
-        private int comboCount = 0;
+        public int Score => stackCount;
 
         public Color prevColor;
         public Color nextColor;
-        
+        private Color lastColor;
+
         private bool isMovingX = true;
         private bool isGameOver = true;
 
+        public int Combo { get; private set; } = 0;
+        public int MaxCombo { get; private set; } = 0;
+        public int BestScore { get; private set; } = 0;
+        public int BestCombo { get; private set; } = 0;
+
         private void Start()
         {
+            BestScore = PlayerPrefs.GetInt(BestScoreKey, 0);
+            BestCombo = PlayerPrefs.GetInt(BestComboKey, 0);
+
             prevColor = GetRandomColor();
             nextColor = GetRandomColor();
 
+            // 초기 블럭 생성
             prevBlockPosition = Vector3.down;
-            SpawnBlock();
+            SpawnBlock(); // 블럭은 prevBlockPosition의 y+1 위치에 생성되기 때문에 초기값을 -1로 설정
         }
-        
+
         private void Update()
         {
             if (isGameOver) return;
-            
+
             if (Input.GetMouseButtonDown(0))
-                SpawnBlock();
-            
+            {
+                if (PlaceBlock())
+                {
+                    SpawnBlock();
+                }
+                else
+                {
+                    isGameOver = true;
+                    UpdateScore();
+                }
+            }
+
             MoveBlock();
             transform.position = Vector3.Lerp(transform.position, desiredPosition, StackMovingSpeed * Time.deltaTime);
         }
@@ -56,19 +77,21 @@ namespace MondayCatWorld.Games
             isGameOver = false;
         }
 
-        private bool SpawnBlock()
+        private void SpawnBlock()
         {
-            // 이전블럭 저장
+            // 이전블럭이 있다면 이전블럭의 위치를 저장
+            // 없다면 초기값 그대로 사용
             if (lastBlock != null)
                 prevBlockPosition = lastBlock.localPosition;
 
-            if (PoolManager.Instance.IsExistPool(CubeKey))
+            if (!PoolManager.Instance.IsExistPool(CubeKey))
             {
                 Debug.LogError($"{CubeKey} :: Pool is not exist!");
             }
-            
+
             GameObject newBlock = PoolManager.Instance.Spawn(CubeKey);
             Cube newCube = newBlock.GetComponent<Cube>();
+            newCube.CubeRigidbody.isKinematic = true;
             Transform newTrans = newCube.CubeTr;
             ColorChange(newCube);
 
@@ -79,17 +102,21 @@ namespace MondayCatWorld.Games
 
             stackCount++;
 
+            // lastBlock을 카메라에 비추기 위해 해당 오브젝트가 이동 할 위치를 계산
             desiredPosition = Vector3.down * stackCount;
             blockTransition = 0f;
 
+            // 마지막으로 스폰 된 블럭을 lastBlock으로 설정
             lastBlock = newTrans;
-
-            return true;
+            isMovingX = !isMovingX;
         }
 
         private void MoveBlock()
         {
             blockTransition += Time.deltaTime * BlockMovingSpeed;
+
+            // 0 ~ boundSize ~ 0 사이의 값
+            // - boundSize / 2 ~ boundSize / 2 사이의 값을 가지게 됨 -> -1.75 ~ 1.75
             float movePosition = Mathf.PingPong(blockTransition, BoundSize) - BoundSize / 2;
 
             // X축 이동
@@ -101,6 +128,124 @@ namespace MondayCatWorld.Games
             {
                 lastBlock.localPosition = new Vector3(secondaryPosition, stackCount, -movePosition * MovingBoundsSize);
             }
+        }
+
+        private bool PlaceBlock()
+        {
+            Vector3 lastPosition = lastBlock.transform.localPosition;
+
+            if (isMovingX)
+            {
+                // prevBlockPosition.x와 lastPosition.x 사이의 거리
+                float deltaX = prevBlockPosition.x - lastPosition.x;
+                bool isNegativeNum = deltaX < 0 ? true : false;
+
+                deltaX = Mathf.Abs(deltaX);
+                if (deltaX > ErrorMargin) // 오차범위를 넘어서면
+                {
+                    stackBounds.x -= deltaX;
+                    if (stackBounds.x <= 0)
+                        return false;
+
+                    float middle = (prevBlockPosition.x + lastPosition.x) / 2;
+                    lastBlock.localScale = new Vector3(stackBounds.x, 1, stackBounds.y);
+
+                    Vector3 tempPosition = lastBlock.localPosition;
+                    tempPosition.x = middle;
+                    lastBlock.localPosition = lastPosition = tempPosition;
+
+                    float rubbleHalfScale = deltaX / 2;
+                    CreateRubble(new
+                                     Vector3(isNegativeNum ? lastPosition.x + stackBounds.x / 2 + rubbleHalfScale : lastPosition.x - stackBounds.x / 2 - rubbleHalfScale,
+                                             lastPosition.y, lastPosition.z),
+                                 new Vector3(deltaX, 1, stackBounds.y));
+
+                    Combo = 0;
+                }
+                else
+                {
+                    CheckCombo();
+                    lastBlock.localPosition = prevBlockPosition + Vector3.up;
+                }
+            }
+            else
+            {
+                float deltaZ = prevBlockPosition.z - lastPosition.z;
+                bool isNegativeNum = deltaZ < 0 ? true : false;
+
+                deltaZ = Mathf.Abs(deltaZ);
+                if (deltaZ > ErrorMargin)
+                {
+                    stackBounds.y -= deltaZ;
+                    if (stackBounds.y <= 0)
+                        return false;
+
+                    float middle = (prevBlockPosition.z + lastPosition.z) / 2;
+                    lastBlock.localScale = new Vector3(stackBounds.x, 1, stackBounds.y);
+
+                    Vector3 tempPosition = lastBlock.localPosition;
+                    tempPosition.z = middle;
+                    lastBlock.localPosition = lastPosition = tempPosition;
+
+                    float rubbleHalfScale = deltaZ / 2;
+                    CreateRubble(new
+                                     Vector3(lastPosition.x,
+                                             lastPosition.y,
+                                             isNegativeNum
+                                                 ? lastPosition.z + stackBounds.y / 2 + rubbleHalfScale
+                                                 : lastPosition.z - stackBounds.y / 2 - rubbleHalfScale),
+                                 new Vector3(stackBounds.x, 1, deltaZ));
+
+                    Combo = 0;
+                }
+                else
+                {
+                    CheckCombo();
+                    lastBlock.localPosition = prevBlockPosition + Vector3.up;
+                }
+            }
+
+            secondaryPosition = isMovingX ? lastBlock.localPosition.x : lastBlock.localPosition.z;
+            return true;
+        }
+
+        private void CreateRubble(Vector3 pos, Vector3 scale)
+        {
+            Cube cube = PoolManager.Instance.Spawn<Cube>(CubeKey);
+            cube.CubeRenderer.material.color = lastColor;
+            cube.transform.parent = transform;
+
+            cube.transform.localPosition = pos;
+            cube.transform.localScale = scale;
+            cube.transform.localRotation = Quaternion.identity;
+
+            cube.CubeRigidbody.isKinematic = false;
+            cube.name = "Rubble";
+        }
+
+        private void CheckCombo()
+        {
+            Combo++;
+
+            if (Combo > MaxCombo)
+                MaxCombo = Combo;
+
+            if (Combo % 5 == 0)
+            {
+                stackBounds += new Vector3(0.5f, 0.5f);
+                stackBounds.x = stackBounds.x > BoundSize ? BoundSize : stackBounds.x;
+                stackBounds.y = stackBounds.y > BoundSize ? BoundSize : stackBounds.y;
+            }
+        }
+
+        private void UpdateScore()
+        {
+            if (BestScore >= stackCount) return;
+
+            BestScore = stackCount;
+            BestCombo = MaxCombo;
+            PlayerPrefs.SetInt(BestScoreKey, BestScore);
+            PlayerPrefs.SetInt(BestComboKey, BestCombo);
         }
 
         private Color GetRandomColor()
@@ -123,10 +268,11 @@ namespace MondayCatWorld.Games
             }
 
             cube.CubeRenderer.material.color = applyColor;
+            lastColor = applyColor;
             var mainCam = TheStackSceneBase.Instance.MainCamera;
             mainCam.backgroundColor = applyColor - new Color(0.1f, 0.1f, 0.1f);
 
-            if (applyColor.Equals(nextColor) == true)
+            if (applyColor.Equals(nextColor))
             {
                 prevColor = nextColor;
                 nextColor = GetRandomColor();

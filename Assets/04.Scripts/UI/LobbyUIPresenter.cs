@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using MondayCatWorld.Managers;
@@ -7,22 +8,37 @@ public class LobbyUIPresenter : SceneSingleton<LobbyUIPresenter>
 {
     public RectTransform InteractionUI;
     
-    private readonly Vector3 Offset = new Vector3(0, 0.5f, 0);
+    private readonly Vector3 Offset = new Vector3(0, 1f, 0);
     
-    public void ShowInteractionUI()
+    private Transform targetTr = null;
+    private Camera mainCam = null;
+    private Vector3 screenPos = Vector3.zero;
+    private bool isInteractable = false;
+
+    public void Init()
     {
-        var mainCam = GameManager.Instance.MainCamera;
-        var playerTr = GameManager.Instance.Player.Tr;
-        var screenPos = mainCam.WorldToViewportPoint(playerTr.position + Offset);
+        mainCam = GameManager.Instance.MainCamera;
+    }
+    
+    public void ShowInteractionUI(Transform target)
+    {
+        targetTr = target;    
+        isInteractable = true;
 
         InteractionUI.gameObject.SetActive(true);
+    }
+
+    private void Update()
+    {
+        if (!isInteractable) return;
+        screenPos = mainCam.WorldToViewportPoint(targetTr.position + Offset);
         InteractionUI.anchorMin = screenPos;
         InteractionUI.anchorMax = screenPos;
     }
-
+    
     public void HideInteractionUI()
     {
-        if (!InteractionUI.gameObject) return;
+        isInteractable = false;
         InteractionUI.gameObject.SetActive(false);
     }
 }

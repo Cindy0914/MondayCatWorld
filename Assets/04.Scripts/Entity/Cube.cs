@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Cube : MonoBehaviour
 {
-    [SerializeField] private Renderer cubeRenderer;
+    [SerializeField] private Renderer cubeRd;
+    [SerializeField] private Rigidbody cubeRb;
     [SerializeField] private Transform cubeTr;
     
-    public Renderer CubeRenderer => cubeRenderer;
+    public Renderer CubeRenderer => cubeRd;
+    public Rigidbody CubeRigidbody => cubeRb;
     public Transform CubeTr => cubeTr;
 }

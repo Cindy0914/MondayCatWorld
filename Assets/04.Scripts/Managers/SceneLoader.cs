@@ -15,7 +15,8 @@ namespace MondayCatWorld.Managers
         private LoadingPanel loadingPanel;
         private Canvas canvas;
         
-        private const float minDuration = 1.5f;
+        private const float fakeMinDuration = 1f;
+        private const float fakeMaxDuration = 2f;
 
         public void Init()
         {
@@ -62,7 +63,8 @@ namespace MondayCatWorld.Managers
             loadingPanel.gameObject.SetActive(true);
             AsyncOperation operation = SceneManager.LoadSceneAsync(scene.GetName());
             operation.allowSceneActivation = false;
-
+            
+            float minDuration = UnityEngine.Random.Range(fakeMinDuration, fakeMaxDuration);
             float fakeLoadTime = 0f;
             float fakeLoadRatio = 0f;
 

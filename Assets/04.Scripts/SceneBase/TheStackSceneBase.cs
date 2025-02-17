@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using MondayCatWorld.Games;
 using MondayCatWorld.Managers;
 using MondayCatWorld.UI;
 using MondayCatWorld.Utils;
@@ -10,6 +11,7 @@ public class TheStackSceneBase : SceneSingleton<TheStackSceneBase>
     [SerializeField] private Canvas canvas;
     [SerializeField] private LoadingPanel loadingPanel;
     [SerializeField] private Camera mainCamera;
+    [SerializeField] private TheStack theStack;
     [SerializeField] private GameObject cubePrefab;
     
     public Canvas Canvas => canvas;
@@ -21,5 +23,7 @@ public class TheStackSceneBase : SceneSingleton<TheStackSceneBase>
         SceneLoader.Instance.SetCurrentScene(Define.Scene.TheStack);
         SceneLoader.Instance.Init();
         PoolManager.Instance.CreatePool(cubePrefab, 10);
+        
+        theStack.StartGame();
     }
 }

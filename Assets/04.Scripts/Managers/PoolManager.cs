@@ -7,11 +7,11 @@ namespace MondayCatWorld.Managers
 {
     public class PoolManager : Singleton<PoolManager>
     {
-        private readonly Dictionary<string, Queue<GameObject>> poolDictionary = new Dictionary<string, Queue<GameObject>>();
+        private readonly Dictionary<string, Queue<GameObject>> poolDictionary = new();
 
-        private readonly Dictionary<string, GameObject> prefabDictionary = new Dictionary<string, GameObject>();
-        private readonly Dictionary<string, Transform> poolParentDictionary = new Dictionary<string, Transform>();
-        private readonly HashSet<GameObject> despawnedObjects = new HashSet<GameObject>();
+        private readonly Dictionary<string, GameObject> prefabDictionary = new();
+        private readonly Dictionary<string, Transform> poolParentDictionary = new();
+        private readonly HashSet<GameObject> despawnedObjects = new();
         private Transform poolParent = null;
 
         public void Init()

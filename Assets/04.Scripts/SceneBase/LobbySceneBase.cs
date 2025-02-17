@@ -28,6 +28,7 @@ public class LobbySceneBase : SceneSingleton<LobbySceneBase>
         SetGameManager();
         SceneLoader.Instance.SetCurrentScene(Define.Scene.Lobby);
         SceneLoader.Instance.Init();
+        LobbyUIPresenter.Instance.Init();
         theStackCristal.AddInteractEvent(TheStackCristalInteract);
     }
 

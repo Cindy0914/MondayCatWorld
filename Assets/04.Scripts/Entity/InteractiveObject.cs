@@ -13,30 +13,33 @@ public class InteractiveObject : MonoBehaviour
     {
         OnInteract.AddListener(action);
     }
-    
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
-        
+
         isPlayerNear = true;
-        LobbyUIPresenter.Instance.ShowInteractionUI();
+        LobbyUIPresenter.Instance.ShowInteractionUI(transform);
     }
 
     private void Update()
     {
         if (!isPlayerNear) return;
-        
+
         if (Input.GetKeyDown(KeyCode.E))
         {
+            LobbyUIPresenter.Instance.HideInteractionUI();
             OnInteract?.Invoke();
         }
     }
-    
+
     private void OnTriggerExit2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
-        
+
         isPlayerNear = false;
+
+        if (!LobbyUIPresenter.Instance) return;
         LobbyUIPresenter.Instance.HideInteractionUI();
     }
 }
