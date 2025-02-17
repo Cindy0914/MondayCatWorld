@@ -6,17 +6,20 @@ using UnityEngine.Events;
 
 public class InteractiveObject : MonoBehaviour
 {
-    [SerializeField] private Transform tr;
-    [SerializeField] private UnityEvent OnInteract;
+    private readonly UnityEvent OnInteract = new();
     private bool isPlayerNear = false;
 
+    public void AddInteractEvent(UnityAction action)
+    {
+        OnInteract.AddListener(action);
+    }
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("OnTriggerEnter");
         if (!other.CompareTag("Player")) return;
         
         isPlayerNear = true;
-        UIPresenter.Instance.ShowInteractionUI(tr);
+        LobbyUIPresenter.Instance.ShowInteractionUI();
     }
 
     private void Update()
@@ -34,6 +37,6 @@ public class InteractiveObject : MonoBehaviour
         if (!other.CompareTag("Player")) return;
         
         isPlayerNear = false;
-        UIPresenter.Instance.HideInteractionUI();
+        LobbyUIPresenter.Instance.HideInteractionUI();
     }
 }

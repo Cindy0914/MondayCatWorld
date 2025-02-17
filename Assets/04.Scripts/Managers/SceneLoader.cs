@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using MondayCatWorld.UI;
 using MondayCatWorld.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,9 +11,45 @@ namespace MondayCatWorld.Managers
 {
     public class SceneLoader : Singleton<SceneLoader>
     {
-        public GameObject loadingUi;
-        public Slider progressBar;
-        private readonly WaitForSeconds waitForSeconds = new(0.5f);
+        private Define.Scene currentScene;
+        private LoadingPanel loadingPanel;
+        private Canvas canvas;
+        
+        private const float minDuration = 1.5f;
+
+        public void Init()
+        {
+            switch (currentScene)
+            {
+                case Define.Scene.Title:
+                    loadingPanel = TitleSceneBase.Instance.LoadingPanel;
+                    canvas = TitleSceneBase.Instance.Canvas;
+                    break;
+                case Define.Scene.Lobby:
+                    loadingPanel = LobbySceneBase.Instance.LoadingPanel;
+                    canvas = LobbySceneBase.Instance.Canvas;
+                    break;
+                case Define.Scene.TheStack:
+                    loadingPanel = TheStackSceneBase.Instance.LoadingPanel;
+                    canvas = TheStackSceneBase.Instance.Canvas;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            
+            canvas = FindObjectOfType<Canvas>();
+            if (canvas == null)
+                Debug.LogError("Canvas is not found");
+            
+            loadingPanel.gameObject.SetActive(false);
+            loadingPanel.rectTr.offsetMin = Vector2.zero;
+            loadingPanel.rectTr.offsetMax = Vector2.zero;
+        }
+        
+        public void SetCurrentScene(Define.Scene scene)
+        {
+            currentScene = scene;
+        }
         
         public void LoadSceneAsync(Define.Scene scene)
         {
@@ -20,15 +58,28 @@ namespace MondayCatWorld.Managers
 
         private IEnumerator LoadSceneCoroutine(Define.Scene scene)
         {
-            loadingUi.SetActive(true);
-            progressBar.value = 0.1f;
+            loadingPanel.progressBar.value = 0f;
+            loadingPanel.gameObject.SetActive(true);
             AsyncOperation operation = SceneManager.LoadSceneAsync(scene.GetName());
+            operation.allowSceneActivation = false;
 
-            yield return waitForSeconds;
+            float fakeLoadTime = 0f;
+            float fakeLoadRatio = 0f;
+
             while (!operation.isDone)
             {
-                float progress = Mathf.Clamp01(operation.progress / 0.9f);
-                progressBar.value = progress;
+                fakeLoadTime += Time.deltaTime;
+                fakeLoadRatio = fakeLoadTime / minDuration;
+                
+                var LoadRatio = Mathf.Min(operation.progress + 0.1f, fakeLoadRatio);
+                loadingPanel.progressBar.value = LoadRatio;
+                
+                if (LoadRatio >= 1.0f)
+                {
+                    operation.allowSceneActivation = true;
+                    break;
+                }
+
                 yield return null;
             }
         }

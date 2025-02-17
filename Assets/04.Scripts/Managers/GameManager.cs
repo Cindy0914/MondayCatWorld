@@ -6,8 +6,6 @@ namespace MondayCatWorld.Managers
 {
     public class GameManager : Singleton<GameManager>
     {
-        [SerializeField] private GameObject playerPrefab;
-        
         public Player Player { get; private set; }
         public string Nickname { get; private set; }
         public Camera MainCamera { get; private set; }
@@ -15,25 +13,24 @@ namespace MondayCatWorld.Managers
         private void Start()
         {
             PoolManager.Instance.Init();
-            LobbySceneInit();
         }
 
-        private void LobbySceneInit()
+        public void SetName(string nickname)
         {
-            if (Camera.main != null)
-                MainCamera = Camera.main;
-            else
-                Debug.LogError("Main Camera is not found");
-            
-            var camController = MainCamera.GetComponent<CameraController>();
-            camController.SetTarget(Player.transform);
+            Nickname = nickname;
         }
         
-        public void SetPlayer(string nickname)
+        public void SetPlayer(Player player)
         {
-            Nickname = nickname;
-            Player = Instantiate(playerPrefab).GetComponent<Player>();
-            Nickname = nickname;
+            Player = player;
+        }
+
+        public void SetCamera(Camera camera)
+        {
+            MainCamera = camera;
+            var camController = MainCamera.GetComponent<CameraController>();
+            camController.SetTarget(Player.transform);
+            
         }
 
         public void LoadTheStackScene()

@@ -116,5 +116,10 @@ namespace MondayCatWorld.Managers
                 Destroy(obj);
             poolDictionary.Clear();
         }
+        
+        public bool IsExistPool(string poolKey)
+        {
+            return poolDictionary.ContainsKey(poolKey);
+        }
     }
 }

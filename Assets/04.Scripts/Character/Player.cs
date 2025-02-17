@@ -8,12 +8,14 @@ namespace MondayCatWorld.Character
         [SerializeField] private SpriteRenderer sr;
         [SerializeField] private Transform tr;
         [SerializeField] private Animator anim;
-
-        [SerializeField] private float speed = 5f;
-
+        
         private readonly int isWalking = Animator.StringToHash("IsMoving");
         private readonly int direction = Animator.StringToHash("Direction");
 
+        private const float speed = 5f;
+        
+        public Transform Tr => tr;
+        
         private void Update()
         {
             Move();
