@@ -37,5 +37,10 @@ namespace MondayCatWorld.Managers
         {
             SceneLoader.Instance.LoadSceneAsync(Define.Scene.TheStack);
         }
+        
+        public void LoadLobbyScene()
+        {
+            SceneLoader.Instance.LoadSceneAsync(Define.Scene.Lobby);
+        }
     }
 }

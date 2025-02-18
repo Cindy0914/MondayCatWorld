@@ -16,7 +16,7 @@ namespace MondayCatWorld.Games
         private const float ErrorMargin = 0.1f;
 
         private Vector3 prevBlockPosition;
-        private Vector3 desiredPosition;                                 // The Stack이 이동 할 위치(일정한 카메라 시점을 유지하기 위해 사용)
+        private Vector3 desiredPosition;                                    // The Stack이 이동 할 위치(일정한 카메라 시점을 유지하기 위해 사용)
         private Vector3 stackBounds = new Vector2(BoundSize, BoundSize); // 큐브 크기
 
         private Transform lastBlock = null;
@@ -24,7 +24,7 @@ namespace MondayCatWorld.Games
         private float secondaryPosition = 0f; // 블럭 이동 위치
 
         private int stackCount = -1;
-        public int Score => stackCount;
+        public int Score => stackCount + 10;
 
         public Color prevColor;
         public Color nextColor;
@@ -42,6 +42,7 @@ namespace MondayCatWorld.Games
         {
             BestScore = PlayerPrefs.GetInt(BestScoreKey, 0);
             BestCombo = PlayerPrefs.GetInt(BestComboKey, 0);
+            StackUIPresenter.Instance.InitBestScore(BestScore, BestCombo);
 
             prevColor = GetRandomColor();
             nextColor = GetRandomColor();
@@ -63,8 +64,7 @@ namespace MondayCatWorld.Games
                 }
                 else
                 {
-                    isGameOver = true;
-                    UpdateScore();
+                    GameOver();
                 }
             }
 
@@ -101,6 +101,7 @@ namespace MondayCatWorld.Games
             newTrans.localScale = new Vector3(stackBounds.x, 1, stackBounds.y);
 
             stackCount++;
+            StackUIPresenter.Instance.UpdateScore(Score);
 
             // lastBlock을 카메라에 비추기 위해 해당 오브젝트가 이동 할 위치를 계산
             desiredPosition = Vector3.down * stackCount;
@@ -226,9 +227,13 @@ namespace MondayCatWorld.Games
         private void CheckCombo()
         {
             Combo++;
+            StackUIPresenter.Instance.UpdateCurrentCombo(Combo);
 
             if (Combo > MaxCombo)
+            {
                 MaxCombo = Combo;
+                StackUIPresenter.Instance.UpdateMaxCombo(MaxCombo);
+            }
 
             if (Combo % 5 == 0)
             {
@@ -242,10 +247,30 @@ namespace MondayCatWorld.Games
         {
             if (BestScore >= stackCount) return;
 
-            BestScore = stackCount;
+            BestScore = stackCount + 10;
             BestCombo = MaxCombo;
             PlayerPrefs.SetInt(BestScoreKey, BestScore);
             PlayerPrefs.SetInt(BestComboKey, BestCombo);
+        }
+
+        private void GameOver()
+        {
+            isGameOver = true;
+            int childCount = transform.childCount;
+
+            for (int i = 0; i < 20; i++)
+            {
+                if (childCount < i) break;
+
+                var cube = transform.GetChild(i - 1).GetComponent<Cube>();
+                if (cube.name.Equals("Rubble")) continue;
+                
+                cube.CubeRigidbody.isKinematic = false;
+                cube.CubeRigidbody.AddForce(Vector3.up * Random.Range(0, 10f) + Vector3.right * (Random.Range(0, 10f) - 5f) * 100f);
+            }
+            
+            UpdateScore();
+            StackUIPresenter.Instance.GameOver();
         }
 
         private Color GetRandomColor()
@@ -271,6 +296,7 @@ namespace MondayCatWorld.Games
             lastColor = applyColor;
             var mainCam = TheStackSceneBase.Instance.MainCamera;
             mainCam.backgroundColor = applyColor - new Color(0.1f, 0.1f, 0.1f);
+            StackUIPresenter.Instance.ChangeTextColor(applyColor);
 
             if (applyColor.Equals(nextColor))
             {

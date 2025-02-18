@@ -3128,7 +3128,7 @@ Transform:
   m_GameObject: {fileID: 710261087}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 58.79, y: -5.58, z: -0.13822395}
+  m_LocalPosition: {x: 49.61, y: -1.94, z: -0.13822395}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -40023,6 +40023,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 1733385201}
+  uiCamera: {fileID: 0}
   loadingPanel: {fileID: 1664864989}
   mainCamera: {fileID: 1147130922}
   playerPrefab: {fileID: 9075522712277999838, guid: d6351e4685188cf42ba4f73f31be2c55, type: 3}
@@ -48579,8 +48580,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57cde2afc08e06240a912912e8835307, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiCamera: {fileID: 1548170066}
-  canvas: {fileID: 1733385202}
   InteractionUI: {fileID: 87607293}
 --- !u!4 &1860001126
 Transform:

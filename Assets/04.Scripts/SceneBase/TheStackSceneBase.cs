@@ -22,8 +22,12 @@ public class TheStackSceneBase : SceneSingleton<TheStackSceneBase>
     {
         SceneLoader.Instance.SetCurrentScene(Define.Scene.TheStack);
         SceneLoader.Instance.Init();
+        StackUIPresenter.Instance.Init();
         PoolManager.Instance.CreatePool(cubePrefab, 10);
-        
+    }
+    
+    public void StartGame()
+    {
         theStack.StartGame();
     }
 }
