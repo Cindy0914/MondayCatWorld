@@ -38,6 +38,8 @@ public class LobbyUIPresenter : SceneSingleton<LobbyUIPresenter>
     
     public void HideInteractionUI()
     {
+        if (!isInteractable) return;
+        
         isInteractable = false;
         InteractionUI.gameObject.SetActive(false);
     }

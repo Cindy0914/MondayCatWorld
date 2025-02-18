@@ -8,7 +8,7 @@ public class TheStackScorePanel : MonoBehaviour
     public TextMeshProUGUI ScoreText;
     public TextMeshProUGUI MaxComboText;
     public TextMeshProUGUI ComboText;
-    private Color offsetColor = new Color(0.3f, 0.3f, 0.3f);
+    private readonly Color offsetColor = new Color(0.1f, 0.1f, 0.1f);
 
     public void Init()
     {

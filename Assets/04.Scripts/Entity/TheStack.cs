@@ -24,19 +24,21 @@ namespace MondayCatWorld.Games
         private float secondaryPosition = 0f; // 블럭 이동 위치
 
         private int stackCount = -1;
-        public int Score => stackCount + 10;
+        private int Score => stackCount * 10;
 
+        public Transform Rubbles = null;
         public Color prevColor;
         public Color nextColor;
         private Color lastColor;
 
         private bool isMovingX = true;
         private bool isGameOver = true;
+        private bool isFirstBlock = true;
 
-        public int Combo { get; private set; } = 0;
-        public int MaxCombo { get; private set; } = 0;
-        public int BestScore { get; private set; } = 0;
-        public int BestCombo { get; private set; } = 0;
+        private int Combo = 0;
+        public int MaxCombo = 0;
+        private int BestScore = 0;
+        private int BestCombo = 0;
 
         private void Start()
         {
@@ -58,6 +60,8 @@ namespace MondayCatWorld.Games
 
             if (Input.GetMouseButtonDown(0))
             {
+                isFirstBlock = false;
+                
                 if (PlaceBlock())
                 {
                     SpawnBlock();
@@ -101,7 +105,10 @@ namespace MondayCatWorld.Games
             newTrans.localScale = new Vector3(stackBounds.x, 1, stackBounds.y);
 
             stackCount++;
-            StackUIPresenter.Instance.UpdateScore(Score);
+            if (!isGameOver)
+            {
+                StackUIPresenter.Instance.UpdateScore(Score);
+            }
 
             // lastBlock을 카메라에 비추기 위해 해당 오브젝트가 이동 할 위치를 계산
             desiredPosition = Vector3.down * stackCount;
@@ -114,6 +121,8 @@ namespace MondayCatWorld.Games
 
         private void MoveBlock()
         {
+            if (isFirstBlock) return;
+            
             blockTransition += Time.deltaTime * BlockMovingSpeed;
 
             // 0 ~ boundSize ~ 0 사이의 값
@@ -162,6 +171,7 @@ namespace MondayCatWorld.Games
                                  new Vector3(deltaX, 1, stackBounds.y));
 
                     Combo = 0;
+                    StackUIPresenter.Instance.ResetCombo();
                 }
                 else
                 {
@@ -198,6 +208,7 @@ namespace MondayCatWorld.Games
                                  new Vector3(stackBounds.x, 1, deltaZ));
 
                     Combo = 0;
+                    StackUIPresenter.Instance.ResetCombo();
                 }
                 else
                 {
@@ -220,6 +231,7 @@ namespace MondayCatWorld.Games
             cube.transform.localScale = scale;
             cube.transform.localRotation = Quaternion.identity;
 
+            cube.CubeTr.parent = Rubbles;
             cube.CubeRigidbody.isKinematic = false;
             cube.name = "Rubble";
         }
@@ -245,9 +257,9 @@ namespace MondayCatWorld.Games
 
         private void UpdateScore()
         {
-            if (BestScore >= stackCount) return;
+            if (BestScore >= Score) return;
 
-            BestScore = stackCount + 10;
+            BestScore = Score;
             BestCombo = MaxCombo;
             PlayerPrefs.SetInt(BestScoreKey, BestScore);
             PlayerPrefs.SetInt(BestComboKey, BestCombo);
@@ -258,19 +270,46 @@ namespace MondayCatWorld.Games
             isGameOver = true;
             int childCount = transform.childCount;
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 1; i < 20; i++)
             {
-                if (childCount < i) break;
+                if (childCount < 1) break;
+                if (childCount - i < 1) break;
 
-                var cube = transform.GetChild(i - 1).GetComponent<Cube>();
-                if (cube.name.Equals("Rubble")) continue;
+                var cube = transform.GetChild(childCount - i).GetComponent<Cube>();
                 
                 cube.CubeRigidbody.isKinematic = false;
-                cube.CubeRigidbody.AddForce(Vector3.up * Random.Range(0, 10f) + Vector3.right * (Random.Range(0, 10f) - 5f) * 100f);
+                cube.CubeRigidbody.AddForce((Vector3.up * Random.Range(0, 10f) + Vector3.right * (Random.Range(0, 10f) - 5f)) * 100f);
+                
             }
             
             UpdateScore();
             StackUIPresenter.Instance.GameOver();
+        }
+
+        public void Retry()
+        {
+            int childCount = transform.childCount;
+            Debug.Log($"childCount: {childCount}");
+            for (int i = childCount - 1; i >= 0; i--)
+            {
+                var cube = transform.GetChild(i).gameObject;
+                PoolManager.Instance.Despawn(cube);
+            }
+            
+            prevColor = GetRandomColor();
+            nextColor = GetRandomColor();
+
+            stackBounds = new Vector2(BoundSize, BoundSize);
+            stackCount = -1;
+            Combo = 0;
+            MaxCombo = 0;
+            
+            lastBlock = null;
+            prevBlockPosition = Vector3.down;
+            SpawnBlock();
+            
+            isGameOver = false;
+            isFirstBlock = true;
         }
 
         private Color GetRandomColor()

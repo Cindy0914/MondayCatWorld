@@ -114,7 +114,14 @@ namespace MondayCatWorld.Managers
 
             foreach (var obj in poolDictionary.SelectMany(pair => pair.Value))
                 Destroy(obj);
+            
+        }
+        
+        public void LoadSceneClearPool()
+        {
+            prefabDictionary.Clear();
             poolDictionary.Clear();
+            poolParentDictionary.Clear();
         }
         
         public bool IsExistPool(string poolKey)

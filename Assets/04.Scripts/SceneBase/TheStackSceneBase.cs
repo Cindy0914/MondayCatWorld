@@ -30,4 +30,10 @@ public class TheStackSceneBase : SceneSingleton<TheStackSceneBase>
     {
         theStack.StartGame();
     }
+    
+    public void RetryGame()
+    {
+        theStack.Retry();
+        theStack.StartGame();
+    }
 }

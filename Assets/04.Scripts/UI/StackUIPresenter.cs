@@ -20,22 +20,26 @@ public class StackUIPresenter : SceneSingleton<StackUIPresenter>
         menuPanel.RetryButton.onClick.AddListener(RetryButton);
         menuPanel.ExitButton.onClick.AddListener(() =>
         {
+            PoolManager.Instance.LoadSceneClearPool();
             GameManager.Instance.LoadLobbyScene();
         });
     }
     
     private void RetryButton()
     {
-        //
+        menuPanel.gameObject.SetActive(false);
+        scorePanel.SetScoreText(0);
+        scorePanel.SetMaxComboText(0);
+        TheStackSceneBase.Instance.RetryGame();
     }
     
     // 게임 시작 시 현재 게임의 점수와 콤보를 보여주기 위해 초기화
     private void StartGame()
     {
-        TheStackSceneBase.Instance.StartGame();
         menuPanel.gameObject.SetActive(false);
         scorePanel.SetScoreText(0);
         scorePanel.SetMaxComboText(0);
+        TheStackSceneBase.Instance.StartGame();
     }
 
     // 씬 진입 시 보여 줄 최고 점수와 최고 콤보
@@ -47,10 +51,15 @@ public class StackUIPresenter : SceneSingleton<StackUIPresenter>
         if (bestCombo != 0)
             scorePanel.SetMaxComboText(bestCombo);
     }
-
+    
     public void UpdateCurrentCombo(int combo)
     {
         scorePanel.SetComboText(combo);
+    }
+
+    public void ResetCombo()
+    {
+        scorePanel.ComboText.gameObject.SetActive(false);
     }
 
     public void UpdateScore(int score)
