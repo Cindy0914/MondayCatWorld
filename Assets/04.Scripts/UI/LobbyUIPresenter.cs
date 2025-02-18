@@ -6,7 +6,9 @@ using UnityEngine;
 
 public class LobbyUIPresenter : SceneSingleton<LobbyUIPresenter>
 {
-    public RectTransform InteractionUI;
+    [SerializeField] private RectTransform InteractionUI;
+    [SerializeField] private LobbyPanel lobbyPanel;
+    [SerializeField] private ProfilePanel profilePanel;
     
     private readonly Vector3 Offset = new Vector3(0, 1f, 0);
     
@@ -18,6 +20,11 @@ public class LobbyUIPresenter : SceneSingleton<LobbyUIPresenter>
     public void Init()
     {
         mainCam = GameManager.Instance.MainCamera;
+        var currentIndex = GameManager.Instance.ModelIndex;
+        var modelCount = LobbySceneBase.Instance.PlayerModelData.ModelSprites.Count - 1;
+        lobbyPanel.Init(ActiveProfilePanel);
+        profilePanel.Init(currentIndex, modelCount);
+        profilePanel.Close();
     }
     
     public void ShowInteractionUI(Transform target)
@@ -42,5 +49,15 @@ public class LobbyUIPresenter : SceneSingleton<LobbyUIPresenter>
         
         isInteractable = false;
         InteractionUI.gameObject.SetActive(false);
+    }
+
+    private void ActiveProfilePanel()
+    {
+        profilePanel.gameObject.SetActive(true);
+    }
+
+    public void ChangeModel()
+    {
+        lobbyPanel.SetCharacterProfile();
     }
 }

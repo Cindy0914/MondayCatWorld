@@ -6,6 +6,8 @@ namespace MondayCatWorld.Utils
 {
     public static class Define
     {
+        public const string ModelNumKey = "ModelNum";
+        
         public enum Scene
         {
             Title,

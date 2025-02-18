@@ -8,6 +8,7 @@ namespace MondayCatWorld.Managers
     {
         public Player Player { get; private set; }
         public string Nickname { get; private set; }
+        public int ModelIndex { get; private set; }
         public Camera MainCamera { get; private set; }
 
         private void Start()
@@ -24,13 +25,17 @@ namespace MondayCatWorld.Managers
         {
             Player = player;
         }
+        
+        public void SetModelIndex(int index)
+        {
+            ModelIndex = index;
+        }
 
         public void SetCamera(Camera camera)
         {
             MainCamera = camera;
             var camController = MainCamera.GetComponent<CameraController>();
             camController.SetTarget(Player.transform);
-            
         }
 
         public void LoadTheStackScene()
