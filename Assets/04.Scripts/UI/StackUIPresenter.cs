@@ -7,6 +7,7 @@ public class StackUIPresenter : SceneSingleton<StackUIPresenter>
 {
     [SerializeField] private TheStackMenuPanel menuPanel;
     [SerializeField] private TheStackScorePanel scorePanel;
+    [SerializeField] private GameObject PlayGuideUI;
 
     public void Init()
     {
@@ -28,6 +29,7 @@ public class StackUIPresenter : SceneSingleton<StackUIPresenter>
     private void RetryButton()
     {
         menuPanel.gameObject.SetActive(false);
+        PlayGuideUI.SetActive(true);
         scorePanel.SetScoreText(0);
         scorePanel.SetMaxComboText(0);
         TheStackSceneBase.Instance.RetryGame();
@@ -37,6 +39,7 @@ public class StackUIPresenter : SceneSingleton<StackUIPresenter>
     private void StartGame()
     {
         menuPanel.gameObject.SetActive(false);
+        PlayGuideUI.SetActive(true);
         scorePanel.SetScoreText(0);
         scorePanel.SetMaxComboText(0);
         TheStackSceneBase.Instance.StartGame();
@@ -75,6 +78,16 @@ public class StackUIPresenter : SceneSingleton<StackUIPresenter>
     public void ChangeTextColor(Color color)
     {
         scorePanel.ChangeTextColor(color);
+    }
+    
+    public bool IsGuidePanelActive()
+    {
+        return PlayGuideUI.activeSelf;
+    }
+
+    public void HideGuidePanel()
+    {
+        PlayGuideUI.SetActive(false);
     }
 
     public void GameOver()

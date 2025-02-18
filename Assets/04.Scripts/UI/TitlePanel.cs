@@ -14,7 +14,6 @@ public class TitlePanel : MonoBehaviour
     public Button ConfirmButton;
     public Button CloseButton;
     
-    private const string NameKey = "PlayerName";
     private const string NameEmpty = "이름을 입력해주세요.";
     private const string NameTooLong = "최대 8자까지 가능합니다.";
     private const int MaxNameLength = 8;
@@ -24,7 +23,7 @@ public class TitlePanel : MonoBehaviour
         ConfirmButton.onClick.AddListener(OnConfirmButtonClick);
         CloseButton.onClick.AddListener(() => WarningPanel.SetActive(false));
         
-        string playerName = PlayerPrefs.GetString(NameKey, string.Empty);
+        string playerName = PlayerPrefs.GetString(Define.NameKey, string.Empty);
         if (!string.IsNullOrEmpty(playerName))
         {
             InputField.text = playerName;
@@ -48,7 +47,7 @@ public class TitlePanel : MonoBehaviour
             return;
         }
         
-        PlayerPrefs.SetString(NameKey, playerName);
+        PlayerPrefs.SetString(Define.NameKey, playerName);
         GameManager.Instance.SetName(playerName);
         SceneLoader.Instance.LoadSceneAsync(Define.Scene.Lobby);
     }

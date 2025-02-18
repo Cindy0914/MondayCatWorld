@@ -60,6 +60,11 @@ namespace MondayCatWorld.Games
 
             if (Input.GetMouseButtonDown(0))
             {
+                if (StackUIPresenter.Instance.IsGuidePanelActive())
+                {
+                    StackUIPresenter.Instance.HideGuidePanel();
+                }
+                
                 isFirstBlock = false;
                 
                 if (PlaceBlock())

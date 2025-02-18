@@ -39,7 +39,7 @@ public class LobbySceneBase : SceneSingleton<LobbySceneBase>
     private void SetGameManager()
     {
         var modelNum = PlayerPrefs.GetInt(Define.ModelNumKey, 5);
-        var model = Instantiate(playerModelData.ModelPrefabs[modelNum]);
+        var model = playerModelData.ModelPrefabs[modelNum];
         
         var player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity).GetComponent<Player>();
         player.Tr.position = playerSpawnPoint.position;
