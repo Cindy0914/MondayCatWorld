@@ -1,30 +1,21 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class SceneSingleton<T> : MonoBehaviour where T : MonoBehaviour
+namespace MondayCatWorld.Managers
 {
-    private static T instance;
-
-    public static T Instance
+    public class SceneSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
-        get
+        private static T instance;
+
+        public static T Instance => instance ? instance : null;
+
+        public void Awake()
         {
-            if (instance)
-                return instance;
-            else
-                return null;
+            instance = this as T;
         }
-    }
 
-    public void Awake()
-    {
-        instance = this as T;
-    }
-    
-    public void OnDestroy()
-    {
-        instance = null;
+        public void OnDestroy()
+        {
+            instance = null;
+        }
     }
 }

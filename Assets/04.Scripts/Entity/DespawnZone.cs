@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using MondayCatWorld.Managers;
 using UnityEngine;
 
-namespace MondayCatWorld.Games
+namespace MondayCatWorld
 {
     public class DestroyZone : MonoBehaviour
     {

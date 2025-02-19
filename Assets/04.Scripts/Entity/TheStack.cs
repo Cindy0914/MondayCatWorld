@@ -1,7 +1,9 @@
 using MondayCatWorld.Managers;
+using MondayCatWorld.SceneBase;
+using MondayCatWorld.UI;
 using UnityEngine;
 
-namespace MondayCatWorld.Games
+namespace MondayCatWorld
 {
     public class TheStack : MonoBehaviour
     {
@@ -36,7 +38,7 @@ namespace MondayCatWorld.Games
         private bool isFirstBlock = true;
 
         private int Combo = 0;
-        public int MaxCombo = 0;
+        private int MaxCombo = 0;
         private int BestScore = 0;
         private int BestCombo = 0;
 

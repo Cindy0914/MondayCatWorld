@@ -183,6 +183,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d3d6cbd042db0c46bcbe02a6cf1c8b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 2040613654}
+  loadingPanel: {fileID: 1367588464}
   menuPanel: {fileID: 197999960}
   scorePanel: {fileID: 1553361571}
   PlayGuideUI: {fileID: 779176043}
@@ -6213,8 +6215,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae41e55e177cef1469c19575e13ad3c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 2040613654}
-  loadingPanel: {fileID: 1367588464}
   mainCamera: {fileID: 284202575}
   theStack: {fileID: 1846117847}
   cubePrefab: {fileID: 1602256828748289655, guid: dd83c5aa63137304c91878226b230cb2, type: 3}
@@ -7210,7 +7210,6 @@ MonoBehaviour:
   Rubbles: {fileID: 498034245}
   prevColor: {r: 0, g: 0, b: 0, a: 0}
   nextColor: {r: 0, g: 0, b: 0, a: 0}
-  MaxCombo: 0
 --- !u!1 &1917332528
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,11 +1,10 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using MondayCatWorld.SceneBase;
 using MondayCatWorld.UI;
 using MondayCatWorld.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 namespace MondayCatWorld.Managers
 {
@@ -18,6 +17,7 @@ namespace MondayCatWorld.Managers
         private const float fakeMinDuration = 1f;
         private const float fakeMaxDuration = 2f;
 
+        // 로딩에 필요한 
         public void Init()
         {
             switch (currentScene)
@@ -27,12 +27,12 @@ namespace MondayCatWorld.Managers
                     canvas = TitleSceneBase.Instance.Canvas;
                     break;
                 case Define.Scene.Lobby:
-                    loadingPanel = LobbySceneBase.Instance.LoadingPanel;
-                    canvas = LobbySceneBase.Instance.Canvas;
+                    loadingPanel = LobbyUIPresenter.Instance.LoadingPanel;
+                    canvas = LobbyUIPresenter.Instance.Canvas;
                     break;
                 case Define.Scene.TheStack:
-                    loadingPanel = TheStackSceneBase.Instance.LoadingPanel;
-                    canvas = TheStackSceneBase.Instance.Canvas;
+                    loadingPanel = StackUIPresenter.Instance.LoadingPanel;
+                    canvas = StackUIPresenter.Instance.Canvas;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -62,16 +62,20 @@ namespace MondayCatWorld.Managers
             loadingPanel.progressBar.value = 0f;
             loadingPanel.gameObject.SetActive(true);
             AsyncOperation operation = SceneManager.LoadSceneAsync(scene.GetName());
+            if (operation == null)
+            {
+                Debug.LogError("SceneLoader.LoadSceneAsync: operation is null");
+                yield break;
+            }
             operation.allowSceneActivation = false;
             
             float minDuration = UnityEngine.Random.Range(fakeMinDuration, fakeMaxDuration);
             float fakeLoadTime = 0f;
-            float fakeLoadRatio = 0f;
 
             while (!operation.isDone)
             {
                 fakeLoadTime += Time.deltaTime;
-                fakeLoadRatio = fakeLoadTime / minDuration;
+                var fakeLoadRatio = fakeLoadTime / minDuration;
                 
                 var LoadRatio = Mathf.Min(operation.progress + 0.1f, fakeLoadRatio);
                 loadingPanel.progressBar.value = LoadRatio;

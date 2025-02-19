@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace MondayCatWorld.Character
 {
-
     public class Player : MonoBehaviour
     {
         [SerializeField] private Transform tr;

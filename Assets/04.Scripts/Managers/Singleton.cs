@@ -1,41 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+namespace MondayCatWorld.Managers
 {
-    private static T instance;
-
-    public static T Instance
+    public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
-        get
+        private static T instance;
+
+        public static T Instance
         {
-            if (!instance)
+            get
             {
+                if (instance) return instance;
                 instance = FindObjectOfType<T>();
 
-                if (!instance)
-                {
-                    GameObject singletonObject = new GameObject(typeof(T).Name);
-                    instance = singletonObject.AddComponent<T>();
-                    DontDestroyOnLoad(singletonObject);
-                }
+                if (instance) return instance;
+                GameObject singletonObject = new GameObject(typeof(T).Name);
+                instance = singletonObject.AddComponent<T>();
+                DontDestroyOnLoad(singletonObject);
+
+                return instance;
             }
-
-            return instance;
         }
-    }
 
-    protected virtual void Awake()
-    {
-        if (instance != null && instance != this)
+        protected virtual void Awake()
         {
-            Destroy(gameObject);
-        }
-        else
-        {
-            instance = this as T;
-            DontDestroyOnLoad(gameObject);
+            if (instance != null && instance != this)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                instance = this as T;
+                DontDestroyOnLoad(gameObject);
+            }
         }
     }
 }
