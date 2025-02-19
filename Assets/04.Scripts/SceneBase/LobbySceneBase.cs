@@ -36,9 +36,12 @@ namespace MondayCatWorld.SceneBase
             var player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity).GetComponent<Player>();
             player.Tr.position = playerSpawnPoint.position;
             player.SetModel(model);
+            
+            var point = PlayerPrefs.GetInt(Define.PointKey, 0);
 
             GameManager.Instance.SetPlayer(player);
             GameManager.Instance.SetModelIndex(modelNum);
+            GameManager.Instance.SetPoint(point);
             GameManager.Instance.SetCamera(mainCamera);
         }
 

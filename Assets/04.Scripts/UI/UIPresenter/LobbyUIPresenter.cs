@@ -9,13 +9,13 @@ namespace MondayCatWorld.UI
     {
         [SerializeField] private Canvas canvas;
         [SerializeField] private LoadingPanel loadingPanel;
-        
+
         // world space UI
         [SerializeField] private RectTransform InteractionUI;
         [SerializeField] private RectTransform NicknameUI;
         [SerializeField] private TextMeshProUGUI NicknameText;
         [SerializeField] private SpeechBubblePanel speechBubblePanel;
-        
+
         // screen space UI
         [SerializeField] private LobbyPanel lobbyPanel;
         [SerializeField] private ProfilePanel profilePanel;
@@ -31,7 +31,7 @@ namespace MondayCatWorld.UI
         private Transform npcTr = null;
         private bool isInteractable = false;
         private bool isTalking = false;
-        
+
         public Canvas Canvas => canvas;
         public LoadingPanel LoadingPanel => loadingPanel;
 
@@ -113,12 +113,12 @@ namespace MondayCatWorld.UI
             isTalking = true;
             SetSpeechBubbleText(text);
         }
-        
+
         public void SetSpeechBubbleText(string text)
         {
             speechBubblePanel.SetText(text);
         }
-        
+
         public void HideSpeechBubble()
         {
             isTalking = false;

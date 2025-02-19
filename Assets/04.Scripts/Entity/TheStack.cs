@@ -1,6 +1,7 @@
 using MondayCatWorld.Managers;
 using MondayCatWorld.SceneBase;
 using MondayCatWorld.UI;
+using MondayCatWorld.Utils;
 using UnityEngine;
 
 namespace MondayCatWorld
@@ -8,9 +9,6 @@ namespace MondayCatWorld
     public class TheStack : MonoBehaviour
     {
         // Const Value
-        private const string CubeKey = "Cube";
-        private const string BestScoreKey = "BestScore";
-        private const string BestComboKey = "BestCombo";
         private const float BoundSize = 3.5f;
         private const float MovingBoundsSize = 3f;
         private const float StackMovingSpeed = 5.0f;
@@ -44,8 +42,8 @@ namespace MondayCatWorld
 
         private void Start()
         {
-            BestScore = PlayerPrefs.GetInt(BestScoreKey, 0);
-            BestCombo = PlayerPrefs.GetInt(BestComboKey, 0);
+            BestScore = PlayerPrefs.GetInt(Define.BestScoreKey, 0);
+            BestCombo = PlayerPrefs.GetInt(Define.BestComboKey, 0);
             StackUIPresenter.Instance.InitBestScore(BestScore, BestCombo);
 
             prevColor = GetRandomColor();
@@ -95,12 +93,12 @@ namespace MondayCatWorld
             if (lastBlock != null)
                 prevBlockPosition = lastBlock.localPosition;
 
-            if (!PoolManager.Instance.IsExistPool(CubeKey))
+            if (!PoolManager.Instance.IsExistPool(Define.CubeKey))
             {
-                Debug.LogError($"{CubeKey} :: Pool is not exist!");
+                Debug.LogError($"{Define.CubeKey} :: Pool is not exist!");
             }
 
-            GameObject newBlock = PoolManager.Instance.Spawn(CubeKey);
+            GameObject newBlock = PoolManager.Instance.Spawn(Define.CubeKey);
             Cube newCube = newBlock.GetComponent<Cube>();
             newCube.CubeRigidbody.isKinematic = true;
             Transform newTrans = newCube.CubeTr;
@@ -230,7 +228,7 @@ namespace MondayCatWorld
 
         private void CreateRubble(Vector3 pos, Vector3 scale)
         {
-            Cube cube = PoolManager.Instance.Spawn<Cube>(CubeKey);
+            Cube cube = PoolManager.Instance.Spawn<Cube>(Define.CubeKey);
             cube.CubeRenderer.material.color = lastColor;
             cube.transform.parent = transform;
 
@@ -268,13 +266,14 @@ namespace MondayCatWorld
 
             BestScore = Score;
             BestCombo = MaxCombo;
-            PlayerPrefs.SetInt(BestScoreKey, BestScore);
-            PlayerPrefs.SetInt(BestComboKey, BestCombo);
+            PlayerPrefs.SetInt(Define.BestScoreKey, BestScore);
+            PlayerPrefs.SetInt(Define.BestComboKey, BestCombo);
         }
 
         private void GameOver()
         {
             isGameOver = true;
+            StackUIPresenter.Instance.ResetCombo();
             int childCount = transform.childCount;
 
             for (int i = 1; i < 20; i++)
@@ -288,15 +287,14 @@ namespace MondayCatWorld
                 cube.CubeRigidbody.AddForce((Vector3.up * Random.Range(0, 10f) + Vector3.right * (Random.Range(0, 10f) - 5f)) * 100f);
                 
             }
-            
+
+            StackUIPresenter.Instance.GameOver(stackCount / 10);
             UpdateScore();
-            StackUIPresenter.Instance.GameOver();
         }
 
         public void Retry()
         {
             int childCount = transform.childCount;
-            Debug.Log($"childCount: {childCount}");
             for (int i = childCount - 1; i >= 0; i--)
             {
                 var cube = transform.GetChild(i).gameObject;

@@ -47,7 +47,6 @@ namespace MondayCatWorld.UI
                 return;
             }
 
-            PlayerPrefs.SetString(Define.NameKey, playerName);
             GameManager.Instance.SetName(playerName);
             SceneLoader.Instance.LoadSceneAsync(Define.Scene.Lobby);
         }

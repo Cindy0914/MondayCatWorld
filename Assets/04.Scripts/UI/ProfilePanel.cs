@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 namespace MondayCatWorld.UI
 {
-
     public class ProfilePanel : MonoBehaviour
     {
         public Image ModelImage;
@@ -16,6 +15,7 @@ namespace MondayCatWorld.UI
         public Button RightButton;
         public Button CloseButton;
         public Button ChangeButton;
+        public TextMeshProUGUI pointText;
 
         private int modelIndex = 0;
         private int maxIndex = 0;
@@ -27,6 +27,7 @@ namespace MondayCatWorld.UI
             var sprite = LobbySceneBase.Instance.GetProfileImage(modelIndex);
             SetModelImage(sprite);
             SetNicknameText();
+            SetPoint();
             LeftButton.onClick.AddListener(OnLeftButtonClick);
             RightButton.onClick.AddListener(OnRightButtonClick);
             CloseButton.onClick.AddListener(Close);
@@ -60,8 +61,6 @@ namespace MondayCatWorld.UI
             // 플레이어 모델 변경
             var modelPrefab = LobbySceneBase.Instance.GetModelPrefab(modelIndex);
             GameManager.Instance.Player.SetModel(modelPrefab);
-            // 데이터 저장
-            PlayerPrefs.SetInt(Define.ModelNumKey, modelIndex);
             // 패널 비활성화
             gameObject.SetActive(false);
             // 로비 패널의 캐릭터 프로필 변경
@@ -77,6 +76,12 @@ namespace MondayCatWorld.UI
         {
             var nickname = GameManager.Instance.Nickname;
             NicknameText.text = nickname;
+        }
+
+        private void SetPoint()
+        {
+            var point = GameManager.Instance.Point;
+            pointText.text = $"{point:000} P";
         }
 
         public void Close()

@@ -23,6 +23,8 @@ namespace MondayCatWorld.Character
 
         private void Update()
         {
+            if (!isTalking) return;
+            
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 SetDialogueIndex();
@@ -35,14 +37,16 @@ namespace MondayCatWorld.Character
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!other.CompareTag("Player")) return;
-            isTalking = true;
+            
             var currentDialogue = dialogues[dialogueIndex];
             LobbyUIPresenter.Instance.ActiveSpeechBubble(currentDialogue, transform);
+            isTalking = true;
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
             if (!other.CompareTag("Player")) return;
+            
             isTalking = false;
             dialogueIndex = 0;
             LobbyUIPresenter.Instance.HideSpeechBubble();

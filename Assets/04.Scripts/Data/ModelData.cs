@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MondayCatWorld.Data
 {
-    [CreateAssetMenu(fileName = "CharacterData", menuName = "Character/CharacterData")]
+    [CreateAssetMenu(fileName = "CharacterData", menuName = "Scriptable/CharacterData")]
     public class ModelData : ScriptableObject
     {
         public List<GameObject> ModelPrefabs;

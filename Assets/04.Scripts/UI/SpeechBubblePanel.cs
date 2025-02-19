@@ -21,11 +21,15 @@ namespace MondayCatWorld.UI
             StopAllCoroutines();
         }
 
+        private void OnEnable()
+        {
+            StartCoroutine(InputKeyAnim());
+        }
+
         public void SetText(string text)
         {
             Text.text = text;
             SetBubbleSize();
-            StartCoroutine(InputKeyAnim());
         }
 
         private void SetBubbleSize()
@@ -39,7 +43,7 @@ namespace MondayCatWorld.UI
         private IEnumerator InputKeyAnim()
         {
             var elapsedTime = 0f;
-            while (gameObject.activeSelf)
+            while (true)
             {
                 while (elapsedTime < duration)
                 {

@@ -43,8 +43,6 @@ namespace MondayCatWorld.Managers
                 Debug.LogError("Canvas is not found");
             
             loadingPanel.gameObject.SetActive(false);
-            loadingPanel.rectTr.offsetMin = Vector2.zero;
-            loadingPanel.rectTr.offsetMax = Vector2.zero;
         }
         
         public void SetCurrentScene(Define.Scene scene)

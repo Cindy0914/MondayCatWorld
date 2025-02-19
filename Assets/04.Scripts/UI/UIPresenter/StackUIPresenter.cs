@@ -96,11 +96,15 @@ namespace MondayCatWorld.UI
             PlayGuideUI.SetActive(false);
         }
 
-        public void GameOver()
+        public void GameOver(int point)
         {
             menuPanel.gameObject.SetActive(true);
             menuPanel.StartButton.gameObject.SetActive(false);
             menuPanel.RetryButton.gameObject.SetActive(true);
+            menuPanel.GameOverPanel.gameObject.SetActive(true);
+            menuPanel.PointPanel.gameObject.SetActive(true);
+            menuPanel.PointText.text = $"{point:000} Point 획득";
+            GameManager.Instance.AddPoint(point);
         }
     }
 }

@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48fb9af1789c0e74889396a28e0f1fce, type: 3}
+  m_Name: PetDatas
+  m_EditorClassIdentifier: 
+  PetDataList:
+  - Prefab: {fileID: 0}
+    Sprite: {fileID: 8987472959680769171, guid: 3c4613d438842dd4785c4f56a845b1e7, type: 3}
+    Name: "\uD30C\uB791\uC0C8"
+    Price: 50
+    AddSpeed: 0
+    IsPurchased: 0
+  - Prefab: {fileID: 0}
+    Sprite: {fileID: 4022897369687429601, guid: bf052616b55d405478163eb9bedc1017, type: 3}
+    Name: "\uBC84\uB2C8"
+    Price: 50
+    AddSpeed: 0
+    IsPurchased: 0
+  - Prefab: {fileID: 0}
+    Sprite: {fileID: 4318867746201169475, guid: 9ca45be6eaaf8f047a13aa609901f344, type: 3}
+    Name: "\uC21C\uB355\uC774"
+    Price: 999
+    AddSpeed: 2
+    IsPurchased: 0
+  - Prefab: {fileID: 0}
+    Sprite: {fileID: -9082884182245173500, guid: fe1a5f87822c5e747b0dd81632b27764, type: 3}
+    Name: "\uB85C\uB529\uB0E5"
+    Price: 100
+    AddSpeed: 0
+    IsPurchased: 0
+  - Prefab: {fileID: 0}
+    Sprite: {fileID: 2798142297317015897, guid: 849a779a81cb68745bffdd8397edc26e, type: 3}
+    Name: "\uC5EC\uC6B0"
+    Price: 100
+    AddSpeed: 0
+    IsPurchased: 0
+  - Prefab: {fileID: 0}
+    Sprite: {fileID: 973769381419737163, guid: 0d39b6b3d655e7d469cff28e8f2009c3, type: 3}
+    Name: "\uD30C\uB791\uC5EC\uC6B0"
+    Price: 150
+    AddSpeed: 0
+    IsPurchased: 0
+  - Prefab: {fileID: 0}
+    Sprite: {fileID: 7213957494598089632, guid: dfdf5de56e54b3349a67f97b1327ece9, type: 3}
+    Name: "\uD3AD\uADC4"
+    Price: 200
+    AddSpeed: 0
+    IsPurchased: 0
