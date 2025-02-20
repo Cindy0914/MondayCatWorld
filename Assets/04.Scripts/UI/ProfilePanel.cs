@@ -59,7 +59,7 @@ namespace MondayCatWorld.UI
             GameManager.Instance.Player.SetModel(modelPrefab);
             GameManager.Instance.SetModelIndex(modelIndex);
             LobbyUIPresenter.Instance.ChangeLobbyPanelModel(); // 로비 패널의 프로필 이미지도 변경
-            gameObject.SetActive(false);
+            Close();
         }
 
         private void SetModelImage(Sprite sprite)
@@ -81,6 +81,7 @@ namespace MondayCatWorld.UI
 
         private void Close()
         {
+            Time.timeScale = 1;
             gameObject.SetActive(false);
         }
     }

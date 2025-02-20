@@ -101,6 +101,7 @@ namespace MondayCatWorld.UI
 
         private void Close()
         {
+            Time.timeScale = 1;
             gameObject.SetActive(false);
         }
     }

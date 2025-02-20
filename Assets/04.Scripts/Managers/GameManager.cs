@@ -26,7 +26,7 @@ namespace MondayCatWorld.Managers
         public void SetName(string nickname)
         {
             Nickname = nickname;
-            PlayerPrefs.SetString("Nickname", Nickname);
+            PlayerPrefs.SetString(Define.NameKey, Nickname);
         }
         
         public void SetPlayer(Player player)
@@ -105,29 +105,6 @@ namespace MondayCatWorld.Managers
         public void LoadLobbyScene()
         {
             SceneLoader.Instance.LoadSceneAsync(Define.Scene.Lobby);
-        }
-
-        // Debug
-        public void OnGUI()
-        {
-#if UNITY_EDITOR
-            // GUIStyle myButtonStyle = new GUIStyle(GUI.skin.button)
-            // {
-            //     fontSize = 30,
-            //     fixedWidth = 300,
-            //     fixedHeight = 80
-            // };
-            // 
-            // if (GUILayout.Button("PlayerPrefs DeleteAll", myButtonStyle))
-            // {
-            //     PlayerPrefs.DeleteAll();
-            // }
-            // 
-            // if (GUILayout.Button("Add Point", myButtonStyle))
-            // {
-            //     AddPoint(100);
-            // }
-#endif
         }
     }
 }

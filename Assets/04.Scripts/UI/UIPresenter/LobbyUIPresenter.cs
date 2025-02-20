@@ -101,6 +101,7 @@ namespace MondayCatWorld.UI
 
         private void ActiveProfilePanel()
         {
+            Time.timeScale = 0;
             profilePanel.gameObject.SetActive(true);
         }
 
@@ -111,6 +112,7 @@ namespace MondayCatWorld.UI
         
         public void ActivePetSelectPanel()
         {
+            Time.timeScale = 0;
             petSelectPanel.gameObject.SetActive(true);
         }
 

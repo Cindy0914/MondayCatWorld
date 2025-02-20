@@ -26,7 +26,8 @@ namespace MondayCatWorld.Character
             var moveDirection = (playerTr.position - Tr.position).normalized;
 
             Vector3 targetPosition = playerTr.position - (moveDirection * followDistance);
-
+            
+            
             if (distance > followDistance * 1.1f)
             {
                 model.Animator.SetBool(isMoving, true);
@@ -41,73 +42,26 @@ namespace MondayCatWorld.Character
 
         private void SwitchDirection(Vector3 dir)
         {
-            if (dir.magnitude < 0.1f) return;
-
-            if (dir.x > 0 && dir.y == 0)
+            dir.x = Mathf.Round(dir.x);
+            dir.y = Mathf.Round(dir.y);
+            
+            if (dir.x > 0)
             {
                 model.Animator.SetInteger(direction, (int)Direction.Right);
                 model.SpriteRenderer.flipX = false;
             }
-            else if (dir.x < 0 && dir.y == 0)
+            else if (dir.x < 0)
             {
                 model.Animator.SetInteger(direction, (int)Direction.Left);
                 model.SpriteRenderer.flipX = true;
             }
-            else if (dir.y > 0 && dir.x == 0)
+            else if (dir.y > 0)
             {
                 model.Animator.SetInteger(direction, (int)Direction.Up);
             }
-            else if (dir.y < 0 && dir.x == 0)
+            else if (dir.y < 0)
             {
                 model.Animator.SetInteger(direction, (int)Direction.Down);
-            }
-            else if (dir.x > 0 && dir.y > 0)
-            {
-                if (dir.x > dir.y)
-                {
-                    model.Animator.SetInteger(direction, (int)Direction.Right);
-                    model.SpriteRenderer.flipX = false;
-                }
-                else
-                {
-                    model.Animator.SetInteger(direction, (int)Direction.Up);
-                }
-            }
-            else if (dir.x > 0 && dir.y < 0)
-            {
-                if (dir.x > Mathf.Abs(dir.y))
-                {
-                    model.Animator.SetInteger(direction, (int)Direction.Right);
-                    model.SpriteRenderer.flipX = false;
-                }
-                else
-                {
-                    model.Animator.SetInteger(direction, (int)Direction.Down);
-                }
-            }
-            else if (dir.x < 0 && dir.y > 0)
-            {
-                if (Mathf.Abs(dir.x) > dir.y)
-                {
-                    model.Animator.SetInteger(direction, (int)Direction.Left);
-                    model.SpriteRenderer.flipX = true;
-                }
-                else
-                {
-                    model.Animator.SetInteger(direction, (int)Direction.Up);
-                }
-            }
-            else if (dir.x < 0 && dir.y < 0)
-            {
-                if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
-                {
-                    model.Animator.SetInteger(direction, (int)Direction.Left);
-                    model.SpriteRenderer.flipX = true;
-                }
-                else
-                {
-                    model.Animator.SetInteger(direction, (int)Direction.Down);
-                }
             }
         }
 
