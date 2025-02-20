@@ -4,7 +4,8 @@ using UnityEngine.Events;
 
 namespace MondayCatWorld
 {
-    public class InteractiveObject : MonoBehaviour
+    // 상호작용 가능한 오브젝트를 담당하는 클래스
+    public class InteractionObject : MonoBehaviour
     {
         private readonly UnityEvent OnInteract = new();
         private bool isPlayerNear = false;

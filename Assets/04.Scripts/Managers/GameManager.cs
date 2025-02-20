@@ -111,22 +111,22 @@ namespace MondayCatWorld.Managers
         public void OnGUI()
         {
 #if UNITY_EDITOR
-            GUIStyle myButtonStyle = new GUIStyle(GUI.skin.button)
-            {
-                fontSize = 30,
-                fixedWidth = 300,
-                fixedHeight = 80
-            };
-            
-            if (GUILayout.Button("PlayerPrefs DeleteAll", myButtonStyle))
-            {
-                PlayerPrefs.DeleteAll();
-            }
-
-            if (GUILayout.Button("Add Point", myButtonStyle))
-            {
-                AddPoint(100);
-            }
+            // GUIStyle myButtonStyle = new GUIStyle(GUI.skin.button)
+            // {
+            //     fontSize = 30,
+            //     fixedWidth = 300,
+            //     fixedHeight = 80
+            // };
+            // 
+            // if (GUILayout.Button("PlayerPrefs DeleteAll", myButtonStyle))
+            // {
+            //     PlayerPrefs.DeleteAll();
+            // }
+            // 
+            // if (GUILayout.Button("Add Point", myButtonStyle))
+            // {
+            //     AddPoint(100);
+            // }
 #endif
         }
     }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace MondayCatWorld.UI
 {
+    // TheStack 씬에서 필요한 UI를 관리하고 오브젝트와 직접 상호작용 하는 클래스
     public class StackUIPresenter : SceneSingleton<StackUIPresenter>
     {
         [SerializeField] private Canvas canvas;

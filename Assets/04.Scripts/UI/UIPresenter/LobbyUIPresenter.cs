@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace MondayCatWorld.UI
 {
+    // 로비 씬에서 필요한 UI를 관리하고 오브젝트와 직접 상호작용 하는 클래스
     public class LobbyUIPresenter : SceneSingleton<LobbyUIPresenter>
     {
         [SerializeField] private Canvas canvas;

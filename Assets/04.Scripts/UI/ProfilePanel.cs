@@ -1,6 +1,5 @@
 using MondayCatWorld.Managers;
 using MondayCatWorld.SceneBase;
-using MondayCatWorld.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -56,15 +55,11 @@ namespace MondayCatWorld.UI
 
         private void OnChangeButtonClick()
         {
-            // 게임매니저의 현재 모델 인덱스 변경
-            GameManager.Instance.SetModelIndex(modelIndex);
-            // 플레이어 모델 변경
             var modelPrefab = LobbySceneBase.Instance.GetModelPrefab(modelIndex);
             GameManager.Instance.Player.SetModel(modelPrefab);
-            // 패널 비활성화
+            GameManager.Instance.SetModelIndex(modelIndex);
+            LobbyUIPresenter.Instance.ChangeLobbyPanelModel(); // 로비 패널의 프로필 이미지도 변경
             gameObject.SetActive(false);
-            // 로비 패널의 캐릭터 프로필 변경
-            LobbyUIPresenter.Instance.ChangeLobbyPanelModel();
         }
 
         private void SetModelImage(Sprite sprite)
@@ -84,7 +79,7 @@ namespace MondayCatWorld.UI
             pointText.text = $"{point:000} P";
         }
 
-        public void Close()
+        private void Close()
         {
             gameObject.SetActive(false);
         }

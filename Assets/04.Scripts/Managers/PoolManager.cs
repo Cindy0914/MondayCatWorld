@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace MondayCatWorld.Managers
 {
+    // 오브젝트 풀링을 관리하는 클래스
     public class PoolManager : Singleton<PoolManager>
     {
         private readonly Dictionary<string, Queue<GameObject>> poolDictionary = new();
@@ -105,17 +106,6 @@ namespace MondayCatWorld.Managers
             despawnedObjects.Add(obj);
         }
 
-        public void ClearPool()
-        {
-            foreach (var obj in prefabDictionary.Select(pair => pair.Value.gameObject))
-                Destroy(obj);
-            prefabDictionary.Clear();
-
-            foreach (var obj in poolDictionary.SelectMany(pair => pair.Value))
-                Destroy(obj);
-            
-        }
-        
         public void LoadSceneClearPool()
         {
             prefabDictionary.Clear();

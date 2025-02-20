@@ -8,7 +8,7 @@ namespace MondayCatWorld.UI
         public TextMeshProUGUI ScoreText;
         public TextMeshProUGUI MaxComboText;
         public TextMeshProUGUI ComboText;
-        private readonly Color offsetColor = new Color(0.1f, 0.1f, 0.1f);
+        private readonly Color offsetColor = new(0.1f, 0.1f, 0.1f);
 
         public void Init()
         {

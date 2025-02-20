@@ -1,13 +1,12 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 using MondayCatWorld.UI;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace MondayCatWorld.Character
 {
+    // NPC 클래스
+    // 에디터에서 대사를 입력받아 단순히 대사를 출력하는 역할
+    // 대사 출력 후 구독중인 이벤트가 있다면 호출
     public class NPC : MonoBehaviour
     {
         [SerializeField] private Transform tr;

@@ -16,6 +16,7 @@ namespace MondayCatWorld.UI
         
         private readonly WaitForSeconds wait = new(1f);
 
+        // 프로필 패널 초기화
         public void Init(Action action)
         {
             SetCharacterProfile();
@@ -23,6 +24,7 @@ namespace MondayCatWorld.UI
             StartCoroutine(UpdateTime());
         }
 
+        // 캐릭터 변경 시 프로필 이미지 변경
         public void SetCharacterProfile()
         {
             var index = GameManager.Instance.ModelIndex;

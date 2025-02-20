@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 
 namespace MondayCatWorld.Managers
 {
+    // 씬을 로드하는 클래스
     public class SceneLoader : Singleton<SceneLoader>
     {
         private Define.Scene currentScene;
@@ -17,7 +18,7 @@ namespace MondayCatWorld.Managers
         private const float fakeMinDuration = 1f;
         private const float fakeMaxDuration = 2f;
 
-        // 로딩에 필요한 
+        // 로딩에 필요한 오브젝트 초기화
         public void Init()
         {
             switch (currentScene)
@@ -55,6 +56,7 @@ namespace MondayCatWorld.Managers
             StartCoroutine(LoadSceneCoroutine(scene));
         }
 
+        // 씬을 로드하는 코루틴
         private IEnumerator LoadSceneCoroutine(Define.Scene scene)
         {
             loadingPanel.progressBar.value = 0f;
@@ -67,6 +69,7 @@ namespace MondayCatWorld.Managers
             }
             operation.allowSceneActivation = false;
             
+            // 최소 로딩 시간을 보장하기 위해 가짜 로딩 시간을 설정
             float minDuration = UnityEngine.Random.Range(fakeMinDuration, fakeMaxDuration);
             float fakeLoadTime = 0f;
 

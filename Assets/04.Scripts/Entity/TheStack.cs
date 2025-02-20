@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace MondayCatWorld
 {
+    // The Stack 게임을 담당하는 클래스
     public class TheStack : MonoBehaviour
     {
         // Const Value

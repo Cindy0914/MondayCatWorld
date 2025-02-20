@@ -8,13 +8,14 @@ using UnityEngine;
 
 namespace MondayCatWorld.SceneBase
 {
+    // 로비 씬에서 필요한 데이터를 가지고 있고, 씬 진입 시 초기화를 담당하는 클래스
     public class LobbySceneBase : SceneSingleton<LobbySceneBase>
     {
         // Object
         [SerializeField] private Camera mainCamera;
         [SerializeField] private GameObject playerPrefab;
         [SerializeField] private Transform playerSpawnPoint;
-        [SerializeField] private InteractiveObject theStackCristal;
+        [SerializeField] private InteractionObject theStackCristal;
 
         // Data
         [SerializeField] private ModelData playerModelData;
@@ -85,15 +86,6 @@ namespace MondayCatWorld.SceneBase
         public List<PetData> GetPetDataList()
         {
             return petDatas.PetDataList;
-        }
-
-        public void LoadPetPurchaseData()
-        {
-            var purchaseData = GameManager.Instance.PetPurchaseData;
-            for (int i = 0; i < purchaseData.Length; i++)
-            {
-                petDatas.PetDataList[i].IsPurchased = purchaseData[i];
-            }
         }
     }
 }
