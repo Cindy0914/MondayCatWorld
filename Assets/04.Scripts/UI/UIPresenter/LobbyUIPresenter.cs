@@ -19,8 +19,8 @@ namespace MondayCatWorld.UI
         // screen space UI
         [SerializeField] private LobbyPanel lobbyPanel;
         [SerializeField] private ProfilePanel profilePanel;
-        [SerializeField] private TextMeshProUGUI testText;
-
+        [SerializeField] private PetSelectPanel petSelectPanel;
+        
         private readonly Vector3 interactOffset = new Vector3(90, 75f, 0);
         private readonly Vector3 bubbleOffset = new Vector3(20f, 140f, 0);
         private readonly Vector3 playerOffset = new Vector3(0f, -103f, 0);
@@ -37,28 +37,15 @@ namespace MondayCatWorld.UI
 
         public void Init()
         {
-            mainCam = GameManager.Instance.MainCamera;
+            var modelCount = LobbySceneBase.Instance.GetPlayerModelCount() - 1;
+            var currentCharacter = GameManager.Instance.ModelIndex;
+            var petCount = LobbySceneBase.Instance.GetPetModelCount() - 1;
+            var currentPet = GameManager.Instance.PetIndex;
             SetNicknameUI();
-            var currentIndex = GameManager.Instance.ModelIndex;
-            var modelCount = LobbySceneBase.Instance.PlayerModelData.ModelSprites.Count - 1;
-            profilePanel.Init(currentIndex, modelCount);
-            profilePanel.Close();
+            mainCam = GameManager.Instance.MainCamera;
+            profilePanel.Init(currentCharacter, modelCount);
+            petSelectPanel.Init(petCount, currentPet);
             lobbyPanel.Init(ActiveProfilePanel);
-        }
-
-        private void SetNicknameUI()
-        {
-            PlayerTr = GameManager.Instance.Player.Tr;
-            NicknameText.text = GameManager.Instance.Nickname;
-            NicknameUI.gameObject.SetActive(true);
-        }
-
-        public void ShowInteractionUI(Transform target)
-        {
-            targetTr = target;
-            isInteractable = true;
-
-            InteractionUI.gameObject.SetActive(true);
         }
 
         private void Update()
@@ -79,7 +66,7 @@ namespace MondayCatWorld.UI
                 speechBubblePanel.BubbleRectTr.anchoredPosition = bubbleOffset;
             }
         }
-
+        
         private void LateUpdate()
         {
             var playerScreenPos = mainCam.WorldToViewportPoint(PlayerTr.position);
@@ -87,8 +74,23 @@ namespace MondayCatWorld.UI
             NicknameUI.anchorMax = playerScreenPos;
             NicknameUI.anchoredPosition = playerOffset;
         }
+        
+        private void SetNicknameUI()
+        {
+            PlayerTr = GameManager.Instance.Player.Tr;
+            NicknameText.text = GameManager.Instance.Nickname;
+            NicknameUI.gameObject.SetActive(true);
+        }
+        
+        public void ActiveInteractionUI(Transform target)
+        {
+            targetTr = target;
+            isInteractable = true;
 
-        public void HideInteractionUI()
+            InteractionUI.gameObject.SetActive(true);
+        }
+
+        public void InActiveInteractionUI()
         {
             if (!isInteractable) return;
 
@@ -101,9 +103,14 @@ namespace MondayCatWorld.UI
             profilePanel.gameObject.SetActive(true);
         }
 
-        public void ChangeModel()
+        public void ChangeLobbyPanelModel()
         {
             lobbyPanel.SetCharacterProfile();
+        }
+        
+        public void ActivePetSelectPanel()
+        {
+            petSelectPanel.gameObject.SetActive(true);
         }
 
         public void ActiveSpeechBubble(string text, Transform tr)
@@ -119,7 +126,7 @@ namespace MondayCatWorld.UI
             speechBubblePanel.SetText(text);
         }
 
-        public void HideSpeechBubble()
+        public void InactiveSpeechBubble()
         {
             isTalking = false;
             speechBubblePanel.gameObject.SetActive(false);

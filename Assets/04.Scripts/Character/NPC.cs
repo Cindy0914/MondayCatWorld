@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using MondayCatWorld.UI;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace MondayCatWorld.Character
 {
@@ -12,6 +13,7 @@ namespace MondayCatWorld.Character
         [SerializeField] private Transform tr;
         [TextArea(5, 10)] public string dialogue;
 
+        public UnityEvent onTalkEnd = new UnityEvent(); 
         private string[] dialogues;
         private int dialogueIndex = 0;
         private bool isTalking = false;
@@ -49,7 +51,7 @@ namespace MondayCatWorld.Character
             
             isTalking = false;
             dialogueIndex = 0;
-            LobbyUIPresenter.Instance.HideSpeechBubble();
+            LobbyUIPresenter.Instance.InactiveSpeechBubble();
         }
 
         private void SetDialogueIndex()
@@ -59,7 +61,8 @@ namespace MondayCatWorld.Character
             {
                 isTalking = false;
                 dialogueIndex = 0;
-                LobbyUIPresenter.Instance.HideSpeechBubble();
+                LobbyUIPresenter.Instance.InactiveSpeechBubble();
+                onTalkEnd?.Invoke();
             }
         }
     }

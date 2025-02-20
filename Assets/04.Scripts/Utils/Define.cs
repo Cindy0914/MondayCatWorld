@@ -9,6 +9,8 @@ namespace MondayCatWorld.Utils
         // PlayerPref Key
         public const string NameKey = "PlayerName";
         public const string ModelNumKey = "ModelNum";
+        public const string PetNumKey = "PetModelNum";
+        public const string PetPurchasedKey = "PetPurchased";
         public const string PointKey = "Point";
         public const string BestScoreKey = "BestScore";
         public const string BestComboKey = "BestCombo";

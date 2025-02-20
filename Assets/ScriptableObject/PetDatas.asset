@@ -13,45 +13,45 @@ MonoBehaviour:
   m_Name: PetDatas
   m_EditorClassIdentifier: 
   PetDataList:
-  - Prefab: {fileID: 0}
+  - Prefab: {fileID: 4133154602162197383, guid: 75cedacdbfb23a2419758dfd0747ea1e, type: 3}
     Sprite: {fileID: 8987472959680769171, guid: 3c4613d438842dd4785c4f56a845b1e7, type: 3}
     Name: "\uD30C\uB791\uC0C8"
-    Price: 50
-    AddSpeed: 0
+    Price: 100
+    FollowSpeed: 3
     IsPurchased: 0
-  - Prefab: {fileID: 0}
+  - Prefab: {fileID: 4133154602162197383, guid: fb4909bc0ff000e43a3494dfeaad0070, type: 3}
     Sprite: {fileID: 4022897369687429601, guid: bf052616b55d405478163eb9bedc1017, type: 3}
     Name: "\uBC84\uB2C8"
-    Price: 50
-    AddSpeed: 0
+    Price: 100
+    FollowSpeed: 3
     IsPurchased: 0
-  - Prefab: {fileID: 0}
+  - Prefab: {fileID: 4133154602162197383, guid: fce39ba2dc0b5794a83d6ab312c924f1, type: 3}
     Sprite: {fileID: 4318867746201169475, guid: 9ca45be6eaaf8f047a13aa609901f344, type: 3}
     Name: "\uC21C\uB355\uC774"
     Price: 999
-    AddSpeed: 2
+    FollowSpeed: 5
     IsPurchased: 0
-  - Prefab: {fileID: 0}
+  - Prefab: {fileID: 4133154602162197383, guid: 63655c84387b845498b68c27d7ff6083, type: 3}
     Sprite: {fileID: -9082884182245173500, guid: fe1a5f87822c5e747b0dd81632b27764, type: 3}
     Name: "\uB85C\uB529\uB0E5"
-    Price: 100
-    AddSpeed: 0
+    Price: 200
+    FollowSpeed: 3
     IsPurchased: 0
-  - Prefab: {fileID: 0}
+  - Prefab: {fileID: 4133154602162197383, guid: 900a3c3bea149b347ae46f1b1a4b86d4, type: 3}
     Sprite: {fileID: 2798142297317015897, guid: 849a779a81cb68745bffdd8397edc26e, type: 3}
     Name: "\uC5EC\uC6B0"
-    Price: 100
-    AddSpeed: 0
+    Price: 200
+    FollowSpeed: 3
     IsPurchased: 0
-  - Prefab: {fileID: 0}
+  - Prefab: {fileID: 4133154602162197383, guid: 6df9ad29efeea6342b39cb493b0ba8d5, type: 3}
     Sprite: {fileID: 973769381419737163, guid: 0d39b6b3d655e7d469cff28e8f2009c3, type: 3}
     Name: "\uD30C\uB791\uC5EC\uC6B0"
-    Price: 150
-    AddSpeed: 0
+    Price: 300
+    FollowSpeed: 3
     IsPurchased: 0
-  - Prefab: {fileID: 0}
+  - Prefab: {fileID: 4133154602162197383, guid: c994ec0fee7ae5040937cf09946b227f, type: 3}
     Sprite: {fileID: 7213957494598089632, guid: dfdf5de56e54b3349a67f97b1327ece9, type: 3}
     Name: "\uD3AD\uADC4"
-    Price: 200
-    AddSpeed: 0
+    Price: 500
+    FollowSpeed: 3
     IsPurchased: 0

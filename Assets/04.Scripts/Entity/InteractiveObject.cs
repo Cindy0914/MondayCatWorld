@@ -19,7 +19,7 @@ namespace MondayCatWorld
             if (!other.CompareTag("Player")) return;
 
             isPlayerNear = true;
-            LobbyUIPresenter.Instance.ShowInteractionUI(transform);
+            LobbyUIPresenter.Instance.ActiveInteractionUI(transform);
         }
 
         private void Update()
@@ -28,7 +28,7 @@ namespace MondayCatWorld
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                LobbyUIPresenter.Instance.HideInteractionUI();
+                LobbyUIPresenter.Instance.InActiveInteractionUI();
                 OnInteract?.Invoke();
             }
         }
@@ -40,7 +40,7 @@ namespace MondayCatWorld
             isPlayerNear = false;
 
             if (!LobbyUIPresenter.Instance) return;
-            LobbyUIPresenter.Instance.HideInteractionUI();
+            LobbyUIPresenter.Instance.InActiveInteractionUI();
         }
     }
 }

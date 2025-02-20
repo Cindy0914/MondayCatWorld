@@ -64,7 +64,7 @@ namespace MondayCatWorld.UI
             // 패널 비활성화
             gameObject.SetActive(false);
             // 로비 패널의 캐릭터 프로필 변경
-            LobbyUIPresenter.Instance.ChangeModel();
+            LobbyUIPresenter.Instance.ChangeLobbyPanelModel();
         }
 
         private void SetModelImage(Sprite sprite)

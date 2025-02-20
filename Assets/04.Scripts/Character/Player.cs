@@ -5,6 +5,7 @@ namespace MondayCatWorld.Character
     public class Player : MonoBehaviour
     {
         [SerializeField] private Transform tr;
+        [SerializeField] private Pet pet;
         private CharacterModel model = null;
         
         private readonly int isWalking = Animator.StringToHash("IsMoving");
@@ -13,6 +14,8 @@ namespace MondayCatWorld.Character
         private const float speed = 5f;
         
         public Transform Tr => tr;
+        public Pet Pet => pet;
+        public int Dir => model.Animator.GetInteger(direction);
         
         private void Update()
         {

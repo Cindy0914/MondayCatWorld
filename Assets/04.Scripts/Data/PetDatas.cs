@@ -15,6 +15,17 @@ public class PetData
     public Sprite Sprite;
     public string Name;
     public int Price;
-    public float AddSpeed;
-    public bool IsPurchased;
+    public float FollowSpeed;
+    public int IsPurchased; // 0: Not Purchased, 1: Purchased
+}
+
+[Serializable]
+public class PurchaseDataWrapper
+{
+    public PurchaseDataWrapper(int[] purchaseData)
+    {
+        PurchaseData = purchaseData;
+    }
+    
+    public int[] PurchaseData;
 }
